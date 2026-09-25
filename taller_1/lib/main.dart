@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.all(8),
                     color: Colors.black54,
                     child: const Text(
-                      'mira un aguila',
+                      'mira un esta imagen ',
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.white),
                     ),
