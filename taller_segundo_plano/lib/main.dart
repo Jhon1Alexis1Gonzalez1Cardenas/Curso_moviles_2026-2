@@ -1,0 +1,20 @@
+import 'package:flutter/material.dart';
+import 'package:taller_segundo_plano/routes/app_routes.dart';
+import 'package:taller_segundo_plano/themes/app_theme.dart';
+
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Taller Segundo Plano',
+      theme: AppTheme.light,
+      initialRoute: AppRoutes.home,
+      routes: AppRoutes.routes,
+    );
+  }
+}
