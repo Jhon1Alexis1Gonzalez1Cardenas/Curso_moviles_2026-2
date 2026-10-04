@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:isolate';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
@@ -59,16 +60,16 @@ class _IsolatePageState extends State<IsolatePage> {
     });
 
     try {
-      _isolate = await Isolate.spawn(
-        _isolateEntry,
-        <Object>[receivePort.sendPort, kIteraciones],
-        onError: errorPort.sendPort,
-      );
+      _isolate = await Isolate.spawn(_isolateEntry, <Object>[
+        receivePort.sendPort,
+        kIteraciones,
+      ], onError: errorPort.sendPort);
 
       final resultado = await completer.future;
       sw.stop();
       debugPrint(
-          '[UI] Resultado recibido: $resultado en ${sw.elapsedMilliseconds} ms');
+        '[UI] Resultado recibido: $resultado en ${sw.elapsedMilliseconds} ms',
+      );
 
       if (!mounted) return;
       setState(() {

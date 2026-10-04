@@ -1,17 +1,28 @@
-# taller_segundo_plano
+# Taller Segundo Plano – Flutter
 
-A new Flutter project.
+## Descripción
+App que demuestra asincronía en Flutter: Future/async/await, Timer e Isolate.
 
-## Getting Started
+## ¿Cuándo usar cada uno?
+| Herramienta | Úsala cuando... | Ejemplo |
+|---|---|---|
+| Future | Una operación tarda y devuelve un valor una vez | Consulta a API/BD |
+| async/await | Quieres escribir código asíncrono legible, secuencial | Esperar el resultado de un Future |
+| Timer | Necesitas ejecutar algo tras un tiempo o periódicamente | Cronómetro, cuenta regresiva |
+| Isolate | Hay trabajo CPU-bound que congelaría la UI | Cálculos grandes, procesar datos |
 
-This project is a starting point for a Flutter application.
+> Future/async NO crean hilos: solo no bloquean mientras *esperan* I/O.
+> Un Isolate sí corre en otro hilo con memoria propia (comunica por mensajes).
 
-A few resources to get you started if this is your first Flutter project:
+## Pantallas y flujos
+1. **Future:** Inicial → Cargando (3 s) → Éxito/Error
+2. **Cronómetro:** Iniciar → Pausar → Reanudar → Reiniciar (Timer.periodic 100 ms, cancelado en dispose)
+3. **Isolate:** Botón → spawn → cálculo → SendPort → resultado en UI
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+(Incluye un diagrama Mermaid o imagen)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Cómo ejecutar
+flutter pub get && flutter run
+
+## GitFlow
+feature/taller_segundo_plano → dev → main
