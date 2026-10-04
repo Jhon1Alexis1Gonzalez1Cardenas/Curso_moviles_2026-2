@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import '../models/estado_carga.dart';
-import '../services/datos_service.dart';
+
+import '../../../taller_1/lib/models/estado_carga.dart';
+import '../../../taller_1/lib/services/datos_service.dart';
 
 class FuturePage extends StatefulWidget {
   const FuturePage({super.key});
@@ -63,8 +64,8 @@ class _FuturePageState extends State<FuturePage> {
                 _estado == Estado.exito
                     ? Icons.check_circle
                     : _estado == Estado.error
-                        ? Icons.error
-                        : Icons.cloud_queue,
+                    ? Icons.error
+                    : Icons.cloud_queue,
                 size: 80,
                 color: color,
               ),
