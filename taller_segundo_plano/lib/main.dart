@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'routes/app_routes.dart';
-import 'themes/app_theme.dart';
+import 'package:taller_segundo_plano/routes/app_routes.dart';
+import 'package:taller_segundo_plano/themes/app_theme.dart';
 
 void main() => runApp(const MyApp());
 
