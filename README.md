@@ -4,7 +4,8 @@ Aplicación móvil desarrollada en Flutter que consume la API pública **API Col
 
 - Autor: Jhon Alexis Gonzalez Cardenas
 - Materia: Desarrollo en Móviles — Unidad Central del Valle del Cauca (UCEVA)
-- Repositorio: <https://github.com/Jhon1Alexis1Gonzalez1Cardenas/taller_datos_abiertos> *(ajusta la URL si el repo queda en otra cuenta)*
+- Repositorio: <https://github.com/Jhon1Alexis1Gonzalez1Cardenas/Curso_moviles_2026-2>
+- Versión actual: `1.0.3+3`
 
 ## 1. API utilizada
 
@@ -155,6 +156,98 @@ flutter:
 
 > Tip para la captura de error: activa el modo avión y entra a un listado.
 
-## 7. Flujo GitFlow
+## 7. Distribución con Firebase App Distribution
 
-`feature/taller_api_colombia` → Pull Request → `dev` → merge a `main`.
+### 7.1 Flujo
+
+**Generar APK → App Distribution → Testers → Instalación → Actualización**
+
+1. **Generar APK:** se compila el build de release con `flutter build apk --release`.
+2. **App Distribution:** el APK se sube a Firebase App Distribution (proyecto *Taller distribucion*) y se asigna al grupo de testers.
+3. **Testers:** el grupo `QA_Clase` incluye a `dduran@uceva.edu.co` y al correo institucional del autor. Cada tester recibe un correo de invitación.
+4. **Instalación:** el tester acepta la invitación e instala la app en un dispositivo Android físico desde el enlace o desde Firebase App Tester.
+5. **Actualización:** se incrementa la versión, se vuelve a compilar y distribuir, y el tester actualiza sobre la instalación existente.
+
+### 7.2 Publicación (cómo replicar el proceso en el equipo)
+
+1. **Versión:** editar `version` en `pubspec.yaml` (ver 7.3).
+2. **Permisos:** confirmar que `android/app/src/main/AndroidManifest.xml` declara `<uses-permission android:name="android.permission.INTERNET"/>`, porque la app consume una API.
+3. **Archivo `.env`:** debe existir en la raíz del proyecto, porque está declarado como asset (ver sección 5). Si no está en el repo, copiar `.env.example` como `.env` antes de compilar.
+4. **Compilar:**
+   ```bash
+   flutter clean
+   flutter pub get
+   flutter build apk --release
+   ```
+   El APK queda en `build/app/outputs/flutter-apk/app-release.apk`.
+5. **Firebase Console:** abrir el proyecto, ir a **App Distribution → Versiones** y arrastrar `app-release.apk`.
+6. **Grupo y notas:** asignar el grupo `QA_Clase`, escribir las release notes (ver 7.4) y pulsar **Distribuir**.
+7. **Enlace:** copiar el enlace de instalación del release.
+
+**Datos de la app en Firebase:**
+
+| Dato | Valor |
+|---|---|
+| applicationId | `com.example.taller_datos_abiertos` |
+| Grupo de testers | `QA_Clase` |
+| Tester del curso | `dduran@uceva.edu.co` |
+
+> **Importante para el equipo:** el release se firma con las llaves *debug* de la máquina (`signingConfig = debug` en `build.gradle.kts`). Para que Android acepte una actualización sobre una versión ya instalada, los APK deben compilarse **en el mismo computador**. Si se compila en otra máquina, hay que desinstalar la app antes de instalar o configurar un keystore compartido.
+
+### 7.3 Versionado
+
+El `versionName` y el `versionCode` de Android salen de `pubspec.yaml`, con el formato `version: <versionName>+<versionCode>`:
+
+| Versión | `pubspec.yaml` | Descripción |
+|---|---|---|
+| 1.0.2 (2) | `version: 1.0.2+2` | Primera distribución |
+| 1.0.3 (3) | `version: 1.0.3+3` | Actualización incremental |
+
+El número después del `+` (`versionCode`) debe **aumentar siempre**; si no, Android no reconoce el APK como actualización.
+
+### 7.4 Formato de Release Notes
+
+```
+Versión X.Y.Z (build N) - DD/MM/AAAA
+Cambios:
+- ...
+Credenciales de prueba: ...
+Responsable: ...
+```
+
+**Release notes usadas:**
+
+```
+Versión 1.0.2 (build 2) - 03/11/2026
+Cambios:
+- Primera distribución de la app "Datos Abiertos de Colombia".
+- Dashboard con 4 categorías (Departamentos, Presidentes, Platos típicos, Atractivos turísticos), listado y detalle consumiendo API Colombia.
+Credenciales de prueba: no aplica (la app no requiere inicio de sesión).
+Responsable: Jhon Alexis Gonzalez Cardenas
+```
+
+```
+Versión 1.0.3 (build 3) - 03/11/2026
+Cambios:
+- Sin cambios funcionales. Incremento de versión para validar el flujo de actualización incremental (1.0.2 → 1.0.3) en App Distribution.
+Credenciales de prueba: no aplica.
+Responsable: Jhon Alexis Gonzalez Cardenas
+```
+
+### 7.5 Evidencias
+
+> Guarda las capturas en `docs/distribucion/` y ajusta los nombres si es necesario.
+
+| Evidencia | Captura |
+|---|---|
+| Releases en App Distribution (1.0.2 y 1.0.3) | ![Releases](docs/distribucion/01_releases.png) |
+| Testers con `dduran@uceva.edu.co` | ![Testers](docs/distribucion/02_testers.png) |
+| Correo de invitación | ![Invitación](docs/distribucion/03_invitacion.png) |
+| App instalada y abierta | ![App instalada](docs/distribucion/04_app_instalada.png) |
+| Versión instalada antes de actualizar (1.0.2) | ![Antes](docs/distribucion/05_antes.png) |
+| Versión instalada después de actualizar (1.0.3) | ![Después](docs/distribucion/06_despues.png) |
+
+## 8. Flujo GitFlow
+
+- Taller API Colombia: `feature/taller_api_colombia` → Pull Request → `dev` → merge a `main`.
+- Taller App Distribution: `feature/app_distribution` → Pull Request → `dev` → merge a `main`.
